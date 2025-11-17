@@ -79,7 +79,7 @@ const chapters = {
   },
   location1: {
     center: [-87.7157113005473, 41.91737635704838],
-    zoom: 18,
+    zoom: 15,
     pitch: 45,
     popup: {
       coords: [-87.7157113005473, 41.91737635704838],
@@ -94,7 +94,7 @@ const chapters = {
   },
   location2: {
     center: [-87.70444, 41.82259],
-    zoom: 18,
+    zoom: 15,
     pitch: 45,
     popup: {
       coords: [-87.70444, 41.82259],
@@ -161,7 +161,7 @@ function isElementOnScreen(id) {
   return bounds.top < window.innerHeight && bounds.bottom > 0;
 }
 
-// Scroll event outside of load
+// Scroll event
 window.addEventListener('scroll', () => {
   for (const chapterName in chapters) {
     if (isElementOnScreen(chapterName)) {
