@@ -73,9 +73,10 @@ const chapters = {
     pitch: 0,
     popup: {
       coords: [-87.623177, 41.881832],
-      html: `<p>A group of nine local newsrooms collaborated to document events.</p>`
+      html: `<p>A group of nine local newsrooms…</p>`
     }
   },
+
   location1: {
     center: [-87.7157113005473, 41.91737635704838],
     zoom: 18,
@@ -91,6 +92,7 @@ const chapters = {
       `
     }
   },
+
   location2: {
     center: [-87.70444, 41.82259],
     zoom: 18,
@@ -110,66 +112,8 @@ const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/satellite-streets-v12',
   center: chapters.intro.center,
-  zoom: chapters.intro.zoom
+  zoom: chapters.intro.zoom,
+  pitch: 0
 });
 
-let activeChapterName = 'intro';
-let currentPopup = null;
-
-map.on('load', () => {
-  // Add a marker for each chapter
-  for (const key in chapters) {
-    const chap = chapters[key];
-    if (chap.popup) {
-      new mapboxgl.Marker().setLngLat(chap.popup.coords).addTo(map);
-    }
-  }
-
-  // Show the initial popup
-  setActiveChapter('intro');
-});
-
-function setActiveChapter(chapterName) {
-  if (chapterName === activeChapterName) return;
-
-  const chapter = chapters[chapterName];
-
-  map.flyTo({
-    center: chapter.center,
-    zoom: chapter.zoom,
-    pitch: chapter.pitch
-  });
-
-  if (currentPopup) currentPopup.remove();
-
-  if (chapter.popup) {
-    currentPopup = new mapboxgl.Popup({ closeOnClick: false })
-      .setLngLat(chapter.popup.coords)
-      .setHTML(chapter.popup.html)
-      .addTo(map);
-  }
-
-  document.getElementById(activeChapterName).classList.remove('active');
-  document.getElementById(chapterName).classList.add('active');
-
-  activeChapterName = chapterName;
-}
-
-function isElementOnScreen(id) {
-  const element = document.getElementById(id);
-  const bounds = element.getBoundingClientRect();
-  return bounds.top < window.innerHeight && bounds.bottom > 0;
-}
-
-window.onscroll = () => {
-  for (const chapterName in chapters) {
-    if (isElementOnScreen(chapterName)) {
-      setActiveChapter(chapterName);
-      break;
-    }
-  }
-};
-</script>
-
-</body>
-</html>
+let activeChapterName =
