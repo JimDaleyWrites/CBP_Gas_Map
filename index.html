@@ -40,11 +40,6 @@
       opacity: 1;
       background: #fff;
     }
-
-    video, iframe {
-      margin-top: 10px;
-      max-width: 100%;
-    }
   </style>
 </head>
 <body>
@@ -64,7 +59,7 @@
 
   <section id="location2">
     <h2>October 4</h2>
-    <p>Five tear gas deployments + pepper balls.</p>
+    <p>Agents deployed 12 tear gas canisters and shot pepper balls 3 times.</p>
   </section>
 </div>
 
@@ -72,113 +67,119 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
 
 <script>
-  mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
+mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
 
-  const chapters = {
-    intro: {
-      center: [-87.623177, 41.881832],
-      zoom: 10,
-      pitch: 0,
-      popup: {
-        coords: [-87.623177, 41.881832],
-        html: `<p>A group of nine local newsrooms…</p>`
-      }
-    },
-    location1: {
-      center: [-87.7157113005473, 41.91737635704838],
-      zoom: 16,
-      pitch: 0,
-      popup: {
-        coords: [-87.7157113005473, 41.91737635704838],
-        html: `
-          <h3>October 3</h3>
-          <p>Tear gas canister deployment.</p>
-          <video controls muted>
-            <source src="https://packaged-media.redd.it/04orpgrmfysf1/pb/m2-res_854p.mp4" type="video/mp4">
-          </video>
-        `
-      }
-    },
-    location2: {
-      center: [-87.70444, 41.82259],
-      zoom: 16,
-      pitch: 0,
-      popup: {
-        coords: [-87.70444, 41.82259],
-        html: `
-          <h3>October 4</h3>
-          <p>Five tear gas deployments + pepper balls.</p>
-          <iframe width="100%" height="200" src="https://www.youtube.com/embed/9M-DxZ8ryno" allowfullscreen></iframe>
-        `
-      }
+const chapters = {
+  intro: {
+    center: [-87.623177, 41.881832],
+    zoom: 10,
+    pitch: 0,
+    popup: {
+      coords: [-87.623177, 41.881832],
+      html: `<p>A group of nine local newsrooms…</p>`
     }
-  };
-
-  const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/satellite-streets-v12',
-    center: chapters.intro.center,
-    zoom: chapters.intro.zoom,
-    pitch: 0
-  });
-
-  let activeChapterName = 'intro';
-  let currentPopup = null;
-
-  map.on('load', () => {
-    // Add markers
-    for (const key in chapters) {
-      const chap = chapters[key];
-      if (chap.popup) {
-        new mapboxgl.Marker().setLngLat(chap.popup.coords).addTo(map);
-      }
+  },
+  location1: {
+    center: [-87.7157113005473, 41.91737635704838],
+    zoom: 18,
+    pitch: 0,
+    popup: {
+      coords: [-87.7157113005473, 41.91737635704838],
+      html: `
+        <h3>October 3</h3>
+        <p>Tear gas canister deployment.</p>
+        <video controls muted width="100%">
+          <source src="https://packaged-media.redd.it/04orpgrmfysf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763348400&s=51c6b43e2281323ce0c373be4e460957131962da" type="video/mp4">
+        </video>
+      `
     }
-    // Show initial popup
-    setActiveChapter('intro');
-  });
-
-  function setActiveChapter(chapterName) {
-    if (chapterName === activeChapterName) return;
-
-    const chapter = chapters[chapterName];
-
-    map.flyTo({
-      center: chapter.center,
-      zoom: chapter.zoom,
-      pitch: chapter.pitch,
-      speed: 0.8
-    });
-
-    if (currentPopup) currentPopup.remove();
-
-    if (chapter.popup) {
-      currentPopup = new mapboxgl.Popup({ closeOnClick: false })
-        .setLngLat(chapter.popup.coords)
-        .setHTML(chapter.popup.html)
-        .addTo(map);
+  },
+  location2: {
+    center: [-87.70444, 41.82259],
+    zoom: 18,
+    pitch: 0,
+    popup: {
+      coords: [-87.70444, 41.82259],
+      html: `
+        <h3>October 4</h3>
+        <p>Five tear gas deployments + pepper balls.</p>
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/9M-DxZ8ryno" allowfullscreen></iframe>
+      `
     }
+  }
+};
 
-    document.getElementById(activeChapterName).classList.remove('active');
-    document.getElementById(chapterName).classList.add('active');
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/satellite-streets-v12',
+  center: chapters.intro.center,
+  zoom: chapters.intro.zoom,
+  pitch: 0
+});
 
-    activeChapterName = chapterName;
+let activeChapterName = 'intro';
+let currentPopup = null;
+
+map.on('load', () => {
+  // Add markers
+  for (const key in chapters) {
+    const chap = chapters[key];
+    if (chap.popup) {
+      new mapboxgl.Marker().setLngLat(chap.popup.coords).addTo(map);
+    }
   }
 
-  function isElementOnScreen(id) {
-    const element = document.getElementById(id);
-    const bounds = element.getBoundingClientRect();
-    return bounds.top < window.innerHeight && bounds.bottom > 0;
-  }
+  // Show initial popup
+  setActiveChapter('intro');
+});
 
-  window.addEventListener('scroll', () => {
-    for (const chapterName in chapters) {
-      if (isElementOnScreen(chapterName)) {
-        setActiveChapter(chapterName);
-        break;
-      }
+// Scroll logic for container
+const container = document.getElementById('features');
+container.addEventListener('scroll', () => {
+  for (const chapterName in chapters) {
+    if (isElementOnScreen(chapterName)) {
+      setActiveChapter(chapterName);
+      break;
     }
+  }
+});
+
+function setActiveChapter(chapterName) {
+  if (chapterName === activeChapterName) return;
+
+  const chapter = chapters[chapterName];
+
+  map.flyTo({
+    center: chapter.center,
+    zoom: chapter.zoom,
+    pitch: chapter.pitch
   });
 
+  if (currentPopup) currentPopup.remove();
+
+  if (chapter.popup) {
+    currentPopup = new mapboxgl.Popup({ closeOnClick: false })
+      .setLngLat(chapter.popup.coords)
+      .setHTML(chapter.popup.html)
+      .addTo(map);
+  }
+
+  document.getElementById(activeChapterName).classList.remove('active');
+  document.getElementById(chapterName).classList.add('active');
+
+  activeChapterName = chapterName;
+}
+
+// Detect if section is visible inside scroll container
+function isElementOnScreen(id) {
+  const element = document.getElementById(id);
+  const containerTop = container.scrollTop;
+  const containerHeight = container.offsetHeight;
+  const elementTop = element.offsetTop;
+  const elementHeight = element.offsetHeight;
+
+  return elementTop < containerTop + containerHeight && elementTop + elementHeight > containerTop;
+}
 </script>
 
 </body>
