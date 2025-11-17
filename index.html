@@ -1,178 +1,122 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Chicago CBP Scrollytelling Map</title>
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-  <link href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css" rel="stylesheet" />
-
-  <style>
-    body { margin: 0; padding: 0; font-family: sans-serif; }
-
-    /* Map stays fixed on left side */
-    #map {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      width: 50%;
-    }
-
-    /* Story content scrolls on right side */
-    #features {
-      width: 50%;
-      margin-left: 50%;
-      height: 100vh;
-      overflow-y: scroll;
-      background: #fafafa;
-    }
-
-    section {
-      padding: 30px;
-      border-bottom: 1px solid #ddd;
-      opacity: 0.3;
-      transition: opacity 0.3s ease;
-      line-height: 1.5;
-    }
-
-    section.active {
-      opacity: 1;
-      background: #fff;
-    }
-  </style>
+<meta charset="utf-8">
+<title>Scrollytelling Map</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map {
+    position: fixed;
+    width: 50%;
+}
+#features {
+    width: 50%;
+    margin-left: 50%;
+    font-family: sans-serif;
+    overflow-y: scroll;
+    background-color: #fafafa;
+}
+section {
+    padding: 25px 50px;
+    line-height: 25px;
+    border-bottom: 1px solid #ddd;
+    opacity: 0.25;
+    font-size: 13px;
+}
+section.active {
+    opacity: 1;
+}
+section:last-child {
+    border-bottom: none;
+    margin-bottom: 200px;
+}
+video {
+    width: 100%;
+    max-width: 400px;
+}
+</style>
 </head>
 <body>
 
 <div id="map"></div>
-
 <div id="features">
-  <section id="intro" class="active">
-    <h2>Introduction</h2>
-    <p>Scroll down to explore incidents across Chicago.</p>
-  </section>
-
-  <section id="location1">
-    <h2>October 3</h2>
-    <p>Agents deployed one tear gas canister.</p>
-  </section>
-
-  <section id="location2">
-    <h2>October 4</h2>
-    <p>Agents deployed 12 tear gas canisters and shot pepper balls 3 times.</p>
-  </section>
+    <section id="intro" class="active">
+        <h3>Introduction</h3>
+        <p>A group of nine local newsrooms...</p>
+    </section>
+    <section id="location1">
+        <h3>Location 1</h3>
+        <video controls>
+            <source src="https://packaged-media.redd.it/qcb53pjykxsf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763420400&s=17003f923494513d7caf39eea64a2e1443fa4e44" type="video/mp4">
+        </video>
+        <p>October 3 <br> Agents deployed one tear gas canister</p>
+    </section>
+    <section id="location2">
+        <h3>Location 2</h3>
+        <video controls>
+            <source src="https://v.redd.it/nl2xxqp44btf1/DASH_360.mp4" type="video/mp4">
+        </video>
+        <p>October 4 <br> Agents deployed 12 tear gas canisters and shot pepper balls 3 times</p>
+    </section>
 </div>
-
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
 
 const chapters = {
-  intro: {
-    center: [-87.623177, 41.881832],
-    zoom: 10,
-    pitch: 0,
-    popup: {
-      coords: [-87.623177, 41.881832],
-      html: `<p>A group of nine local newsrooms…</p>`
+    'intro': {
+        center: [-87.623177, 41.881832],
+        zoom: 10,
+        pitch: 0
+    },
+    'location1': {
+        center: [-87.7157113005473, 41.91737635704838],
+        zoom: 15,
+        pitch: 45
+    },
+    'location2': {
+        center: [-87.70444, 41.82259],
+        zoom: 15,
+        pitch: 45
     }
-  },
-  location1: {
-    center: [-87.7157113005473, 41.91737635704838],
-    zoom: 18,
-    pitch: 0,
-    popup: {
-      coords: [-87.7157113005473, 41.91737635704838],
-      html: `
-        <h3>October 3</h3>
-        <p>Tear gas canister deployment.</p>
-        <video controls muted width="100%">
-          <source src="https://packaged-media.redd.it/04orpgrmfysf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763348400&s=51c6b43e2281323ce0c373be4e460957131962da" type="video/mp4">
-        </video>
-      `
-    }
-  },
-  location2: {
-    center: [-87.70444, 41.82259],
-    zoom: 18,
-    pitch: 0,
-    popup: {
-      coords: [-87.70444, 41.82259],
-      html: `
-        <h3>October 4</h3>
-        <p>Five tear gas deployments + pepper balls.</p>
-        <iframe width="100%" height="200" src="https://www.youtube.com/embed/9M-DxZ8ryno" allowfullscreen></iframe>
-      `
-    }
-  }
 };
 
 const map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/satellite-streets-v12',
-  center: chapters.intro.center,
-  zoom: chapters.intro.zoom,
-  pitch: 0
+    container: 'map',
+    style: 'mapbox://styles/mapbox/satellite-streets-v12',
+    center: chapters['intro'].center,
+    zoom: chapters['intro'].zoom
 });
 
 let activeChapterName = 'intro';
-let currentPopup = null;
-
-// Add markers
-map.on('load', () => {
-  for (const key in chapters) {
-    const chap = chapters[key];
-    if (chap.popup) {
-      new mapboxgl.Marker().setLngLat(chap.popup.coords).addTo(map);
-    }
-  }
-  setActiveChapter('intro');
-});
-
 function setActiveChapter(chapterName) {
-  if (chapterName === activeChapterName) return;
-  const chapter = chapters[chapterName];
+    if (chapterName === activeChapterName) return;
 
-  map.flyTo({
-    center: chapter.center,
-    zoom: chapter.zoom,
-    pitch: chapter.pitch
-  });
+    map.flyTo(chapters[chapterName]);
 
-  if (currentPopup) currentPopup.remove();
+    document.getElementById(chapterName).classList.add('active');
+    document.getElementById(activeChapterName).classList.remove('active');
 
-  if (chapter.popup) {
-    currentPopup = new mapboxgl.Popup({ closeOnClick: false })
-      .setLngLat(chapter.popup.coords)
-      .setHTML(chapter.popup.html)
-      .addTo(map);
-  }
-
-  document.getElementById(activeChapterName).classList.remove('active');
-  document.getElementById(chapterName).classList.add('active');
-  activeChapterName = chapterName;
+    activeChapterName = chapterName;
 }
-
-// Scroll detection on #features
-const container = document.getElementById('features');
-container.addEventListener('scroll', () => {
-  for (const chapterName in chapters) {
-    if (isElementOnScreen(chapterName)) {
-      setActiveChapter(chapterName);
-      break;
-    }
-  }
-});
 
 function isElementOnScreen(id) {
-  const element = document.getElementById(id);
-  const containerTop = container.scrollTop;
-  const containerBottom = containerTop + container.clientHeight;
-
-  const elementTop = element.offsetTop;
-  const elementBottom = elementTop + element.offsetHeight;
-
-  return elementBottom > containerTop && elementTop < containerBottom;
+    const element = document.getElementById(id);
+    const bounds = element.getBoundingClientRect();
+    return bounds.top < window.innerHeight && bounds.bottom > 0;
 }
+
+window.onscroll = () => {
+    for (const chapterName in chapters) {
+        if (isElementOnScreen(chapterName)) {
+            setActiveChapter(chapterName);
+            break;
+        }
+    }
+};
 </script>
 
 </body>
