@@ -8,36 +8,10 @@
 
   <style>
     body { margin: 0; padding: 0; font-family: sans-serif; }
-
-    /* Map fixed on left side */
-    #map {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      width: 50%;
-    }
-
-    /* Story scrolls on right side */
-    #features {
-      width: 50%;
-      margin-left: 50%;
-      height: 100vh;
-      overflow-y: scroll;
-      background: #fafafa;
-    }
-
-    section {
-      padding: 30px;
-      border-bottom: 1px solid #ddd;
-      opacity: 0.3;
-      transition: opacity 0.3s ease;
-      line-height: 1.5;
-    }
-
-    section.active {
-      opacity: 1;
-      background: #fff;
-    }
+    #map { position: fixed; top: 0; bottom: 0; width: 50%; }
+    #features { width: 50%; margin-left: 50%; height: 100vh; overflow-y: scroll; background: #fafafa; }
+    section { padding: 30px; border-bottom: 1px solid #ddd; opacity: 0.3; transition: opacity 0.3s ease; line-height: 1.5; }
+    section.active { opacity: 1; background: #fff; }
   </style>
 </head>
 <body>
@@ -67,43 +41,9 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
 
 const chapters = {
-  intro: {
-    center: [-87.623177, 41.881832],
-    zoom: 10,
-    pitch: 0,
-    popup: {
-      coords: [-87.623177, 41.881832],
-      html: `<p>A group of nine local newsrooms…</p>`
-    }
-  },
-  location1: {
-    center: [-87.7157113005473, 41.91737635704838],
-    zoom: 15,
-    pitch: 0, // overhead
-    popup: {
-      coords: [-87.7157113005473, 41.91737635704838],
-      html: `
-        <h3>October 3</h3>
-        <p>Tear gas canister deployment.</p>
-        <video controls muted width="100%">
-          <source src="https://packaged-media.redd.it/04orpgrmfysf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763348400&s=51c6b43e2281323ce0c373be4e460957131962da" type="video/mp4">
-        </video>
-      `
-    }
-  },
-  location2: {
-    center: [-87.70444, 41.82259],
-    zoom: 15,
-    pitch: 0, // overhead
-    popup: {
-      coords: [-87.70444, 41.82259],
-      html: `
-        <h3>October 4</h3>
-        <p>Five tear gas deployments + pepper balls.</p>
-        <iframe width="100%" height="200" src="https://www.youtube.com/embed/9M-DxZ8ryno" allowfullscreen></iframe>
-      `
-    }
-  }
+  intro: { center: [-87.623177, 41.881832], zoom: 10, pitch: 0 },
+  location1: { center: [-87.7157113005473, 41.91737635704838], zoom: 15, pitch: 0 },
+  location2: { center: [-87.70444, 41.82259], zoom: 15, pitch: 0 }
 };
 
 const map = new mapboxgl.Map({
@@ -114,42 +54,18 @@ const map = new mapboxgl.Map({
   pitch: 0
 });
 
+// Add markers
+for (const key in chapters) {
+  new mapboxgl.Marker().setLngLat(chapters[key].center).addTo(map);
+}
+
 let activeChapterName = 'intro';
-let currentPopup = null;
-
-map.on('load', () => {
-  // Add a marker for each chapter
-  for (const key in chapters) {
-    const chap = chapters[key];
-    if (chap.popup) {
-      new mapboxgl.Marker().setLngLat(chap.popup.coords).addTo(map);
-    }
-  }
-
-  // Show the initial popup
-  setActiveChapter('intro');
-});
 
 function setActiveChapter(chapterName) {
   if (chapterName === activeChapterName) return;
 
   const chapter = chapters[chapterName];
-
-  map.flyTo({
-    center: chapter.center,
-    zoom: chapter.zoom,
-    pitch: chapter.pitch,
-    speed: 0.8
-  });
-
-  if (currentPopup) currentPopup.remove();
-
-  if (chapter.popup) {
-    currentPopup = new mapboxgl.Popup({ closeOnClick: false })
-      .setLngLat(chapter.popup.coords)
-      .setHTML(chapter.popup.html)
-      .addTo(map);
-  }
+  map.flyTo({ center: chapter.center, zoom: chapter.zoom, pitch: chapter.pitch, speed: 0.8 });
 
   document.getElementById(activeChapterName).classList.remove('active');
   document.getElementById(chapterName).classList.add('active');
@@ -158,8 +74,7 @@ function setActiveChapter(chapterName) {
 }
 
 function isElementOnScreen(id) {
-  const element = document.getElementById(id);
-  const bounds = element.getBoundingClientRect();
+  const bounds = document.getElementById(id).getBoundingClientRect();
   return bounds.top < window.innerHeight && bounds.bottom > 0;
 }
 
