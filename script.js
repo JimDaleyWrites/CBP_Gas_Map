@@ -1,4 +1,4 @@
-mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN_HERE';
+mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oejg1dnprMGtqZjJrcHQyd3h0YTNreCJ9.wjgytEDxDIP6bl7hkHerrA';
 
 const chapters = {
   intro: {
