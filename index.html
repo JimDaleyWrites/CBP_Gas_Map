@@ -59,4 +59,100 @@
 
   <section id="location2">
     <h2>October 4</h2>
-    <p>Agents deployed 12 tear gas caniste
+    <p>Agents deployed 12 tear gas canisters and shot pepper balls 3 times.</p>
+  </section>
+</div>
+
+<script>
+// ========================
+//  MAPBOX SETUP
+// ========================
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
+
+const chapters = {
+  'intro': {
+    center: [-87.623177, 41.881832],
+    zoom: 10,
+    pitch: 0
+  },
+  'location1': {
+    center: [-87.7157113005473, 41.91737635704838],
+    zoom: 15,
+    pitch: 45,
+    description: 'October 3<br>Agents deployed one tear gas canister'
+  },
+  'location2': {
+    center: [-87.70444, 41.82259],
+    zoom: 15,
+    pitch: 45,
+    description: 'October 4<br>Agents deployed 12 tear gas canisters and shot pepper balls 3 times'
+  }
+};
+
+const map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/satellite-streets-v12',
+  center: chapters['intro'].center,
+  zoom: chapters['intro'].zoom,
+  pitch: 0
+});
+
+// ========================
+//  ADD MARKERS & POPUPS
+// ========================
+
+map.on('load', () => {
+  const popup1 = new mapboxgl.Popup().setHTML(chapters['location1'].description);
+  new mapboxgl.Marker()
+    .setLngLat(chapters['location1'].center)
+    .setPopup(popup1)
+    .addTo(map);
+
+  const popup2 = new mapboxgl.Popup().setHTML(chapters['location2'].description);
+  new mapboxgl.Marker()
+    .setLngLat(chapters['location2'].center)
+    .setPopup(popup2)
+    .addTo(map);
+});
+
+// ========================
+//  SCROLLING LOGIC
+// ========================
+
+let activeChapterName = 'intro';
+
+function setActiveChapter(chapterName) {
+  if (chapterName === activeChapterName) return;
+
+  map.flyTo({
+    center: chapters[chapterName].center,
+    zoom: chapters[chapterName].zoom,
+    pitch: chapters[chapterName].pitch || 0,
+    speed: 0.8
+  });
+
+  document.getElementById(activeChapterName).classList.remove('active');
+  document.getElementById(chapterName).classList.add('active');
+
+  activeChapterName = chapterName;
+}
+
+function isElementOnScreen(id) {
+  const element = document.getElementById(id);
+  const bounds = element.getBoundingClientRect();
+  return bounds.top < window.innerHeight && bounds.bottom > 0;
+}
+
+window.onscroll = () => {
+  for (const chapterName in chapters) {
+    if (isElementOnScreen(chapterName)) {
+      setActiveChapter(chapterName);
+      break;
+    }
+  }
+};
+</script>
+
+</body>
+</html>
