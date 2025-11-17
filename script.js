@@ -1,76 +1,109 @@
+<script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
 
 const chapters = {
-    'intro': {
-        center: [-87.623177, 41.881832],
-        zoom: 10,
-        pitch: 0
-    },
-    'location1': {
-        center: [-87.7157113005473, 41.91737635704838],
-        zoom: 15,
-        pitch: 45,
-        description: 'October 3 <br> Agents deployed one tear gas canister'
-    },
-    'location2': {
-        center: [-87.70444, 41.82259],
-        zoom: 15,
-        pitch: 45,
-        description: 'October 4 <br> Agents deployed 12 tear gas canisters and shot pepper balls 3 times'
+  intro: {
+    center: [-87.623177, 41.881832],
+    zoom: 10,
+    pitch: 0,
+    popup: {
+      coords: [-87.623177, 41.881832],
+      html: `<p>A group of nine local newsrooms…</p>`
     }
+  },
+
+  location1: {
+    center: [-87.7157113005473, 41.91737635704838],
+    zoom: 18,
+    pitch: 45,
+    popup: {
+      coords: [-87.7157113005473, 41.91737635704838],
+      html: `
+        <h3>October 3</h3>
+        <p>Tear gas canister deployment.</p>
+        <video controls muted width="100%">
+          <source src="https://packaged-media.redd.it/04orpgrmfysf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763348400&s=51c6b43e2281323ce0c373be4e460957131962da" type="video/mp4">
+        </video>
+      `
+    }
+  },
+
+  location2: {
+    center: [-87.70444, 41.82259],
+    zoom: 18,
+    pitch: 45,
+    popup: {
+      coords: [-87.70444, 41.82259],
+      html: `
+        <h3>October 4</h3>
+        <p>Five tear gas deployments + pepper balls.</p>
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/9M-DxZ8ryno" allowfullscreen></iframe>
+      `
+    }
+  }
 };
 
 const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/satellite-streets-v12',
-    center: chapters['intro'].center,
-    zoom: chapters['intro'].zoom
-});
-
-// Add markers with popups for each location
-map.on('load', () => {
-    // Location 1 marker
-    const popup1 = new mapboxgl.Popup()
-        .setHTML(chapters['location1'].description);
-    
-    new mapboxgl.Marker()
-        .setLngLat(chapters['location1'].center)
-        .setPopup(popup1)
-        .addTo(map);
-    
-    // Location 2 marker
-    const popup2 = new mapboxgl.Popup()
-        .setHTML(chapters['location2'].description);
-    
-    new mapboxgl.Marker()
-        .setLngLat(chapters['location2'].center)
-        .setPopup(popup2)
-        .addTo(map);
+  container: 'map',
+  style: 'mapbox://styles/mapbox/satellite-streets-v12',
+  center: chapters.intro.center,
+  zoom: chapters.intro.zoom
 });
 
 let activeChapterName = 'intro';
+let currentPopup = null;
+
+map.on('load', () => {
+  // Add marker for each location
+  for (const key in chapters) {
+    const chap = chapters[key];
+    if (chap.popup) {
+      new mapboxgl.Marker().setLngLat(chap.popup.coords).addTo(map);
+    }
+  }
+
+  // Show initial popup
+  setActiveChapter('intro');
+});
+
 function setActiveChapter(chapterName) {
-    if (chapterName === activeChapterName) return;
+  if (chapterName === activeChapterName) return;
 
-    map.flyTo(chapters[chapterName]);
+  const chapter = chapters[chapterName];
 
-    document.getElementById(chapterName).classList.add('active');
-    document.getElementById(activeChapterName).classList.remove('active');
+  map.flyTo({
+    center: chapter.center,
+    zoom: chapter.zoom,
+    pitch: chapter.pitch
+  });
 
-    activeChapterName = chapterName;
+  if (currentPopup) currentPopup.remove();
+
+  if (chapter.popup) {
+    currentPopup = new mapboxgl.Popup({ closeOnClick: false })
+      .setLngLat(chapter.popup.coords)
+      .setHTML(chapter.popup.html)
+      .addTo(map);
+  }
+
+  document.getElementById(activeChapterName).classList.remove('active');
+  document.getElementById(chapterName).classList.add('active');
+
+  activeChapterName = chapterName;
 }
 
 function isElementOnScreen(id) {
-    const element = document.getElementById(id);
-    const bounds = element.getBoundingClientRect();
-    return bounds.top < window.innerHeight && bounds.bottom > 0;
+  const element = document.getElementById(id);
+  const bounds = element.getBoundingClientRect();
+  return bounds.top < window.innerHeight && bounds.bottom > 0;
 }
 
 window.onscroll = () => {
-    for (const chapterName in chapters) {
-        if (isElementOnScreen(chapterName)) {
-            setActiveChapter(chapterName);
-            break;
-        }
+  for (const chapterName in chapters) {
+    if (isElementOnScreen(chapterName)) {
+      setActiveChapter(chapterName);
+      break;
     }
+  }
 };
+</script>
