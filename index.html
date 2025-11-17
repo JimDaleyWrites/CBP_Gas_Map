@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Scrollytelling Map with Popups and Video</title>
+  <title>Scrollytelling Map with Auto-Playing Popups</title>
   <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.js"></script>
@@ -26,16 +26,10 @@
     </section>
     <section id="location1">
       <h3>Location 1</h3>
-      <video controls>
-        <source src="https://packaged-media.redd.it/qcb53pjykxsf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763420400&s=17003f923494513d7caf39eea64a2e1443fa4e44" type="video/mp4">
-      </video>
       <p>October 3 <br> Agents deployed one tear gas canister</p>
     </section>
     <section id="location2">
       <h3>Location 2</h3>
-      <video controls>
-        <source src="https://v.redd.it/nl2xxqp44btf1/DASH_360.mp4" type="video/mp4">
-      </video>
       <p>October 4 <br> Agents deployed 12 tear gas canisters and shot pepper balls 3 times</p>
     </section>
   </div>
@@ -49,6 +43,11 @@
       'location2': { center: [-87.70444, 41.82259], zoom: 15, pitch: 45 }
     };
 
+    const videos = {
+      'location1': 'https://packaged-media.redd.it/qcb53pjykxsf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763420400&s=17003f923494513d7caf39eea64a2e1443fa4e44',
+      'location2': 'https://v.redd.it/nl2xxqp44btf1/DASH_360.mp4'
+    };
+
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
@@ -56,44 +55,61 @@
       zoom: chapters['intro'].zoom
     });
 
-    let activeChapterName = 'intro';
+    let activeChapter = 'intro';
+    const popups = {};
 
-    function setActiveChapter(chapterName) {
-      if (chapterName === activeChapterName) return;
-      map.flyTo(chapters[chapterName]);
-      document.getElementById(chapterName).classList.add('active');
-      document.getElementById(activeChapterName).classList.remove('active');
-      activeChapterName = chapterName;
+    // Create markers with popups
+    for (const loc in videos) {
+      const popup = new mapboxgl.Popup({ offset: 25 })
+        .setHTML(`<h3>${loc}</h3><video id="video-${loc}" controls><source src="${videos[loc]}" type="video/mp4"></video>`);
+      const marker = new mapboxgl.Marker()
+        .setLngLat(chapters[loc].center)
+        .setPopup(popup)
+        .addTo(map);
+
+      popups[loc] = popup;
+    }
+
+    function setActiveChapter(chapter) {
+      if (chapter === activeChapter) return;
+
+      // Fly to new chapter
+      map.flyTo(chapters[chapter]);
+
+      // Highlight section
+      document.getElementById(chapter).classList.add('active');
+      document.getElementById(activeChapter).classList.remove('active');
+
+      // Close previous popup
+      if (popups[activeChapter]) popups[activeChapter].remove();
+
+      // Open new popup and autoplay video if it exists
+      if (popups[chapter]) {
+        popups[chapter].addTo(map);
+        const videoEl = document.getElementById(`video-${chapter}`);
+        if (videoEl) videoEl.play();
+      }
+
+      activeChapter = chapter;
     }
 
     function isElementOnScreen(id) {
-      const element = document.getElementById(id);
-      const bounds = element.getBoundingClientRect();
-      return bounds.top < window.innerHeight && bounds.bottom > 0;
+      const el = document.getElementById(id);
+      const rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2;
     }
 
     window.addEventListener('scroll', () => {
-      for (const chapterName in chapters) {
-        if (isElementOnScreen(chapterName)) {
-          setActiveChapter(chapterName);
+      for (const chapter in chapters) {
+        if (isElementOnScreen(chapter)) {
+          setActiveChapter(chapter);
           break;
         }
       }
     });
 
-    // Add markers with popups that include video
-    const locations = {
-      'location1': 'https://packaged-media.redd.it/qcb53pjykxsf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763420400&s=17003f923494513d7caf39eea64a2e1443fa4e44',
-      'location2': 'https://v.redd.it/nl2xxqp44btf1/DASH_360.mp4'
-    };
-
-    for (const loc in locations) {
-      const marker = new mapboxgl.Marker()
-        .setLngLat(chapters[loc].center)
-        .setPopup(new mapboxgl.Popup({ offset: 25 })
-          .setHTML(`<h3>${loc}</h3><video controls><source src="${locations[loc]}" type="video/mp4"></video>`))
-        .addTo(map);
-    }
+    // Optionally, open intro popup at load (no video)
+    // map.on('load', () => setActiveChapter('intro'));
   </script>
 </body>
 </html>
