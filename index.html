@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Chicago CBP Map</title>
+  <title>Chicago CBP Scrollytelling Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
@@ -10,8 +10,9 @@
     body { margin:0; font-family:sans-serif; }
     #map { position:fixed; top:0; left:0; width:50%; height:100vh; }
     #features { position:relative; margin-left:50%; height:100vh; overflow-y:scroll; background:#fafafa; }
-    section { padding:100px 30px; border-bottom:1px solid #ddd; opacity:0.3; transition:opacity 0.3s ease; line-height:1.5; min-height:100vh; }
+    section { padding:50px 30px; border-bottom:1px solid #ddd; opacity:0.3; transition:opacity 0.3s ease; line-height:1.5; min-height:100vh; }
     section.active { opacity:1; background:#fff; }
+    video, iframe { margin-top:10px; }
   </style>
 </head>
 <body>
@@ -21,12 +22,14 @@
 <div id="features">
   <section id="intro" class="active">
     <h2>Introduction</h2>
-    <p>Scroll to explore incidents in Chicago.</p>
+    <p>Scroll down to explore incidents across Chicago.</p>
   </section>
+
   <section id="location1">
     <h2>October 3</h2>
     <p>One tear gas canister deployed.</p>
   </section>
+
   <section id="location2">
     <h2>October 4</h2>
     <p>Twelve tear gas canisters + pepper balls.</p>
@@ -69,52 +72,49 @@ const chapters = {
   }
 };
 
-const map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/streets-v12',
-  center: chapters.intro.center,
-  zoom: chapters.intro.zoom
-});
+// Initialize map after DOM loads
+window.addEventListener('DOMContentLoaded', () => {
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: chapters.intro.center,
+    zoom: chapters.intro.zoom
+  });
 
-let activeChapter = 'intro';
-let currentPopup = null;
+  let activeChapter = 'intro';
+  let currentPopup = null;
 
-// Add markers
-for(const key in chapters){
-  new mapboxgl.Marker().setLngLat(chapters[key].center).addTo(map);
-}
-
-// Scroll function
-function setActiveChapter(chap){
-  if(chap===activeChapter) return;
-
-  map.flyTo({ center: chapters[chap].center, zoom: chapters[chap].zoom, pitch: chapters[chap].pitch });
-
-  // Remove old popup
-  if(currentPopup) currentPopup.remove();
-
-  // Add new popup if exists
-  if(chapters[chap].popup){
-    currentPopup = new mapboxgl.Popup({ closeOnClick:false })
-      .setLngLat(chapters[chap].center)
-      .setHTML(chapters[chap].popup.html)
-      .addTo(map);
+  // Add markers
+  for (const key in chapters) {
+    new mapboxgl.Marker().setLngLat(chapters[key].center).addTo(map);
   }
 
-  document.getElementById(activeChapter).classList.remove('active');
-  document.getElementById(chap).classList.add('active');
-  activeChapter = chap;
-}
+  function setActiveChapter(chap) {
+    if (chap === activeChapter) return;
 
-// Detect which section is on screen
-function isOnScreen(id){
-  const rect = document.getElementById(id).getBoundingClientRect();
-  return rect.top < window.innerHeight && rect.bottom > 0;
-}
+    map.flyTo({ center: chapters[chap].center, zoom: chapters[chap].zoom, pitch: chapters[chap].pitch });
 
-// Wait until DOM loads to attach scroll
-window.addEventListener('DOMContentLoaded', ()=>{
-  window.addEventListener('scroll', ()=>{
+    if (currentPopup) currentPopup.remove();
+
+    if (chapters[chap].popup) {
+      currentPopup = new mapboxgl.Popup({ closeOnClick:false })
+        .setLngLat(chapters[chap].center)
+        .setHTML(chapters[chap].popup.html)
+        .addTo(map);
+    }
+
+    document.getElementById(activeChapter).classList.remove('active');
+    document.getElementById(chap).classList.add('active');
+
+    activeChapter = chap;
+  }
+
+  function isOnScreen(id){
+    const rect = document.getElementById(id).getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom > 0;
+  }
+
+  window.addEventListener('scroll', () => {
     for(const chap in chapters){
       if(isOnScreen(chap)){
         setActiveChapter(chap);
@@ -122,6 +122,9 @@ window.addEventListener('DOMContentLoaded', ()=>{
       }
     }
   });
+
+  // Show initial popup
+  setActiveChapter('intro');
 });
 </script>
 
