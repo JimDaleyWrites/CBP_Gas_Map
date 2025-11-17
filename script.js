@@ -1,69 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Scrollytelling Map</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.js"></script>
-<style>
-body { margin: 0; padding: 0; }
-#map {
-    position: fixed;
-    width: 50%;
-}
-#features {
-    width: 50%;
-    margin-left: 50%;
-    font-family: sans-serif;
-    overflow-y: scroll;
-    background-color: #fafafa;
-}
-section {
-    padding: 25px 50px;
-    line-height: 25px;
-    border-bottom: 1px solid #ddd;
-    opacity: 0.25;
-    font-size: 13px;
-}
-section.active {
-    opacity: 1;
-}
-section:last-child {
-    border-bottom: none;
-    margin-bottom: 200px;
-}
-video {
-    width: 100%;
-    max-width: 400px;
-}
-</style>
-</head>
-<body>
-
-<div id="map"></div>
-<div id="features">
-    <section id="intro" class="active">
-        <h3>Introduction</h3>
-        <p>A group of nine local newsrooms...</p>
-    </section>
-    <section id="location1">
-        <h3>Location 1</h3>
-        <video controls>
-            <source src="https://packaged-media.redd.it/qcb53pjykxsf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763420400&s=17003f923494513d7caf39eea64a2e1443fa4e44" type="video/mp4">
-        </video>
-        <p>October 3 <br> Agents deployed one tear gas canister</p>
-    </section>
-    <section id="location2">
-        <h3>Location 2</h3>
-        <video controls>
-            <source src="https://v.redd.it/nl2xxqp44btf1/DASH_360.mp4" type="video/mp4">
-        </video>
-        <p>October 4 <br> Agents deployed 12 tear gas canisters and shot pepper balls 3 times</p>
-    </section>
-</div>
-
-<script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
 
 const chapters = {
@@ -75,12 +9,14 @@ const chapters = {
     'location1': {
         center: [-87.7157113005473, 41.91737635704838],
         zoom: 15,
-        pitch: 45
+        pitch: 45,
+        description: 'October 3 <br> Agents deployed one tear gas canister'
     },
     'location2': {
         center: [-87.70444, 41.82259],
         zoom: 15,
-        pitch: 45
+        pitch: 45,
+        description: 'October 4 <br> Agents deployed 12 tear gas canisters and shot pepper balls 3 times'
     }
 };
 
@@ -89,6 +25,27 @@ const map = new mapboxgl.Map({
     style: 'mapbox://styles/mapbox/satellite-streets-v12',
     center: chapters['intro'].center,
     zoom: chapters['intro'].zoom
+});
+
+// Add markers with popups for each location
+map.on('load', () => {
+    // Location 1 marker
+    const popup1 = new mapboxgl.Popup()
+        .setHTML(chapters['location1'].description);
+    
+    new mapboxgl.Marker()
+        .setLngLat(chapters['location1'].center)
+        .setPopup(popup1)
+        .addTo(map);
+    
+    // Location 2 marker
+    const popup2 = new mapboxgl.Popup()
+        .setHTML(chapters['location2'].description);
+    
+    new mapboxgl.Marker()
+        .setLngLat(chapters['location2'].center)
+        .setPopup(popup2)
+        .addTo(map);
 });
 
 let activeChapterName = 'intro';
@@ -117,7 +74,3 @@ window.onscroll = () => {
         }
     }
 };
-</script>
-
-</body>
-</html>
