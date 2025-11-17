@@ -1,38 +1,115 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Scrollytelling Map</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.js"></script>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <title>CBP Gas Map - Scrollytelling</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.js"></script>
+  <style>
+    body { margin: 0; padding: 0; font-family: sans-serif; }
+    #map { position: fixed; width: 50%; height: 100%; }
+    #features { position: absolute; right: 0; top: 0; width: 50%; height: 100%; overflow-y: scroll; background-color: #fafafa; padding: 20px; }
+    section { padding: 25px 0; border-bottom: 1px solid #ddd; opacity: 0.25; transition: opacity 0.3s ease; font-size: 14px; }
+    section.active { opacity: 1; }
+    section:last-child { border-bottom: none; margin-bottom: 200px; }
+    video { width: 100%; display: block; margin-top: 10px; }
+    .mapboxgl-popup-content video { width: 100%; }
+  </style>
 </head>
 <body>
 
 <div id="map"></div>
 <div id="features">
-    <section id="intro" class="active">
-        <h3>Introduction</h3>
-        <p>A group of nine local newsrooms...</p>
-    </section>
-    <section id="location1">
-        <h3>Location 1</h3>
-        <video controls>
-            <source src="https://packaged-media.redd.it/qcb53pjykxsf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763420400&s=17003f923494513d7caf39eea64a2e1443fa4e44" type="video/mp4">
-        </video>
-        <p>October 3 <br> Agents deployed one tear gas canister</p>
-    </section>
-    <section id="location2">
-        <h3>Location 2</h3>
-        <video controls>
-            <source src="https://v.redd.it/nl2xxqp44btf1/DASH_360.mp4" type="video/mp4">
-        </video>
-        <p>October 4 <br> Agents deployed 12 tear gas canisters and shot pepper balls 3 times</p>
-    </section>
+  <section id="intro" class="active">
+    <h3>Introduction</h3>
+    <p>A group of nine local newsrooms...</p>
+  </section>
+
+  <section id="location1">
+    <h3>Location 1</h3>
+    <p>October 3 <br> Agents deployed one tear gas canister</p>
+  </section>
+
+  <section id="location2">
+    <h3>Location 2</h3>
+    <p>October 4 <br> Agents deployed 12 tear gas canisters and shot pepper balls 3 times</p>
+  </section>
 </div>
 
-<script src="script.js"></script>
+<script>
+  // Mapbox access
+  mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
+
+  // Chapters configuration
+  const chapters = {
+    intro: { center: [-87.623177, 41.881832], zoom: 10, pitch: 0 },
+    location1: { center: [-87.7157113, 41.9173764], zoom: 15, pitch: 45, video: 'https://packaged-media.redd.it/qcb53pjykxsf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763420400&s=17003f923494513d7caf39eea64a2e1443fa4e44' },
+    location2: { center: [-87.70444, 41.82259], zoom: 15, pitch: 45, video: 'https://v.redd.it/nl2xxqp44btf1/DASH_360.mp4' }
+  };
+
+  // Initialize map
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/satellite-streets-v12',
+    center: chapters.intro.center,
+    zoom: chapters.intro.zoom
+  });
+
+  // Create a single persistent popup
+  const popup = new mapboxgl.Popup({ closeOnClick: false, closeButton: false });
+
+  let activeChapter = 'intro';
+
+  function setActiveChapter(chapter) {
+    if (chapter === activeChapter) return;
+
+    // Fly to chapter location
+    map.flyTo(chapters[chapter]);
+
+    // Update active section styles
+    document.getElementById(activeChapter).classList.remove('active');
+    document.getElementById(chapter).classList.add('active');
+
+    // Update popup content if the chapter has a video
+    if (chapters[chapter].video) {
+      popup.setLngLat(chapters[chapter].center)
+        .setHTML(`<div>
+                    <h3>${chapter}</h3>
+                    <video id="popup-video" src="${chapters[chapter].video}" controls muted autoplay></video>
+                  </div>`)
+        .addTo(map);
+
+      // Ensure the video plays (some browsers require a short timeout)
+      setTimeout(() => {
+        const vid = document.getElementById('popup-video');
+        if (vid) vid.play().catch(e => console.warn('Video play prevented by browser:', e));
+      }, 500);
+    } else {
+      // Remove popup if no video
+      popup.remove();
+    }
+
+    activeChapter = chapter;
+  }
+
+  // Detect which section is in the middle of the viewport
+  function isElementOnScreen(id) {
+    const el = document.getElementById(id);
+    const rect = el.getBoundingClientRect();
+    return rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4;
+  }
+
+  // Listen for scroll events
+  window.addEventListener('scroll', () => {
+    for (const chap in chapters) {
+      if (isElementOnScreen(chap)) {
+        setActiveChapter(chap);
+        break;
+      }
+    }
+  });
+</script>
 
 </body>
 </html>
