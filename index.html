@@ -84,7 +84,7 @@ window.addEventListener('load', function() {
     location1: {
       center: [-87.7157113005473, 41.91737635704838],
       zoom: 18,
-      pitch: 45,
+      pitch: 0,  // overhead view
       popup: {
         coords: [-87.7157113005473, 41.91737635704838],
         html: `
@@ -99,7 +99,7 @@ window.addEventListener('load', function() {
     location2: {
       center: [-87.70444, 41.82259],
       zoom: 18,
-      pitch: 45,
+      pitch: 0,  // overhead view
       popup: {
         coords: [-87.70444, 41.82259],
         html: `
@@ -164,17 +164,19 @@ window.addEventListener('load', function() {
   function isElementOnScreen(id) {
     const element = document.getElementById(id);
     const bounds = element.getBoundingClientRect();
-    return bounds.top < window.innerHeight && bounds.bottom > 0;
+    // Trigger when the element is near the middle of the screen
+    const triggerPoint = window.innerHeight / 2;
+    return bounds.top < triggerPoint && bounds.bottom > triggerPoint;
   }
 
-  window.onscroll = () => {
+  window.addEventListener('scroll', () => {
     for (const chapterName in chapters) {
       if (isElementOnScreen(chapterName)) {
         setActiveChapter(chapterName);
         break;
       }
     }
-  };
+  });
 
 });
 </script>
