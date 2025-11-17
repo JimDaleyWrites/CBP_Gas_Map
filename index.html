@@ -40,6 +40,11 @@
       opacity: 1;
       background: #fff;
     }
+
+    video, iframe {
+      margin-top: 10px;
+      max-width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -59,7 +64,7 @@
 
   <section id="location2">
     <h2>October 4</h2>
-    <p>Agents deployed 12 tear gas canisters and shot pepper balls 3 times.</p>
+    <p>Five tear gas deployments + pepper balls.</p>
   </section>
 </div>
 
@@ -67,8 +72,6 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
 
 <script>
-window.addEventListener('load', function() {
-
   mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
 
   const chapters = {
@@ -83,23 +86,23 @@ window.addEventListener('load', function() {
     },
     location1: {
       center: [-87.7157113005473, 41.91737635704838],
-      zoom: 18,
-      pitch: 45,
+      zoom: 16,
+      pitch: 0,
       popup: {
         coords: [-87.7157113005473, 41.91737635704838],
         html: `
           <h3>October 3</h3>
           <p>Tear gas canister deployment.</p>
-          <video controls muted width="100%">
-            <source src="https://packaged-media.redd.it/04orpgrmfysf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763348400&s=51c6b43e2281323ce0c373be4e460957131962da" type="video/mp4">
+          <video controls muted>
+            <source src="https://packaged-media.redd.it/04orpgrmfysf1/pb/m2-res_854p.mp4" type="video/mp4">
           </video>
         `
       }
     },
     location2: {
       center: [-87.70444, 41.82259],
-      zoom: 18,
-      pitch: 45,
+      zoom: 16,
+      pitch: 0,
       popup: {
         coords: [-87.70444, 41.82259],
         html: `
@@ -123,14 +126,13 @@ window.addEventListener('load', function() {
   let currentPopup = null;
 
   map.on('load', () => {
-    // Add marker for each chapter
+    // Add markers
     for (const key in chapters) {
       const chap = chapters[key];
       if (chap.popup) {
         new mapboxgl.Marker().setLngLat(chap.popup.coords).addTo(map);
       }
     }
-
     // Show initial popup
     setActiveChapter('intro');
   });
@@ -143,7 +145,8 @@ window.addEventListener('load', function() {
     map.flyTo({
       center: chapter.center,
       zoom: chapter.zoom,
-      pitch: chapter.pitch
+      pitch: chapter.pitch,
+      speed: 0.8
     });
 
     if (currentPopup) currentPopup.remove();
@@ -167,16 +170,15 @@ window.addEventListener('load', function() {
     return bounds.top < window.innerHeight && bounds.bottom > 0;
   }
 
-  window.onscroll = () => {
+  window.addEventListener('scroll', () => {
     for (const chapterName in chapters) {
       if (isElementOnScreen(chapterName)) {
         setActiveChapter(chapterName);
         break;
       }
     }
-  };
+  });
 
-});
 </script>
 
 </body>
