@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Scrollytelling Map with Auto-Playing Popups</title>
+  <title>CBP Gas Map - Scrollytelling</title>
   <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.css" rel="stylesheet">
   <script src="https://api.mapbox.com/mapbox-gl-js/v3.17.0-beta.1/mapbox-gl.js"></script>
@@ -38,21 +38,21 @@
     mapboxgl.accessToken = 'pk.eyJ1IjoiamltZGFsZXkiLCJhIjoiY21oeHIzanN1MDRjZzJqcHYzOTI2ZHhnMiJ9.92tczXH-1swPAun1FrlfGw';
 
     const chapters = {
-      'intro': { center: [-87.623177, 41.881832], zoom: 10, pitch: 0 },
-      'location1': { center: [-87.7157113005473, 41.91737635704838], zoom: 15, pitch: 45 },
-      'location2': { center: [-87.70444, 41.82259], zoom: 15, pitch: 45 }
+      intro: { center: [-87.623177, 41.881832], zoom: 10, pitch: 0 },
+      location1: { center: [-87.7157113, 41.9173764], zoom: 15, pitch: 45 },
+      location2: { center: [-87.70444, 41.82259], zoom: 15, pitch: 45 }
     };
 
     const videos = {
-      'location1': 'https://packaged-media.redd.it/qcb53pjykxsf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763420400&s=17003f923494513d7caf39eea64a2e1443fa4e44',
-      'location2': 'https://v.redd.it/nl2xxqp44btf1/DASH_360.mp4'
+      location1: 'https://packaged-media.redd.it/qcb53pjykxsf1/pb/m2-res_854p.mp4?m=DASHPlaylist.mpd&v=1&e=1763420400&s=17003f923494513d7caf39eea64a2e1443fa4e44',
+      location2: 'https://v.redd.it/nl2xxqp44btf1/DASH_360.mp4'
     };
 
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
-      center: chapters['intro'].center,
-      zoom: chapters['intro'].zoom
+      center: chapters.intro.center,
+      zoom: chapters.intro.zoom
     });
 
     let activeChapter = 'intro';
@@ -60,34 +60,50 @@
 
     // Create markers with popups
     for (const loc in videos) {
-      const popup = new mapboxgl.Popup({ offset: 25 })
-        .setHTML(`<h3>${loc}</h3><video id="video-${loc}" controls><source src="${videos[loc]}" type="video/mp4"></video>`);
-      const marker = new mapboxgl.Marker()
+      const html = `
+        <div>
+          <h3>${loc}</h3>
+          <video id="video-${loc}" controls muted>
+            <source src="${videos[loc]}" type="video/mp4">
+          </video>
+        </div>`;
+
+      const popup = new mapboxgl.Popup({ offset: 25, closeOnClick: false })
+        .setLngLat(chapters[loc].center)
+        .setHTML(html);
+
+      popups[loc] = popup;
+
+      new mapboxgl.Marker()
         .setLngLat(chapters[loc].center)
         .setPopup(popup)
         .addTo(map);
-
-      popups[loc] = popup;
     }
 
     function setActiveChapter(chapter) {
       if (chapter === activeChapter) return;
 
-      // Fly to new chapter
+      // Fly map
       map.flyTo(chapters[chapter]);
 
-      // Highlight section
-      document.getElementById(chapter).classList.add('active');
+      // Highlight sections
       document.getElementById(activeChapter).classList.remove('active');
+      document.getElementById(chapter).classList.add('active');
 
-      // Close previous popup
-      if (popups[activeChapter]) popups[activeChapter].remove();
+      // Close previous popup and stop video
+      if (popups[activeChapter]) {
+        popups[activeChapter].remove();
+        const prevVid = document.getElementById(`video-${activeChapter}`);
+        if (prevVid) { prevVid.pause(); prevVid.currentTime = 0; }
+      }
 
-      // Open new popup and autoplay video if it exists
+      // Open new popup and play video
       if (popups[chapter]) {
         popups[chapter].addTo(map);
-        const videoEl = document.getElementById(`video-${chapter}`);
-        if (videoEl) videoEl.play();
+        setTimeout(() => {
+          const vid = document.getElementById(`video-${chapter}`);
+          if (vid) vid.play().catch(e => console.warn('Video play failed:', e));
+        }, 500);
       }
 
       activeChapter = chapter;
@@ -96,20 +112,17 @@
     function isElementOnScreen(id) {
       const el = document.getElementById(id);
       const rect = el.getBoundingClientRect();
-      return rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2;
+      return rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4;
     }
 
     window.addEventListener('scroll', () => {
-      for (const chapter in chapters) {
-        if (isElementOnScreen(chapter)) {
-          setActiveChapter(chapter);
+      for (const chap in chapters) {
+        if (isElementOnScreen(chap)) {
+          setActiveChapter(chap);
           break;
         }
       }
     });
-
-    // Optionally, open intro popup at load (no video)
-    // map.on('load', () => setActiveChapter('intro'));
   </script>
 </body>
 </html>
