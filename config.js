@@ -38,6 +38,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 3',
+            address: '3566 W. Armitage',
             image: 'visuals/location1.webp',
             credit: 'credit: Andrew Denton for Block Club Chicago',
             description: 'An agent deployed 1 tear gas canister near Armitage and Central Park, within one block of an elementary school.', 
@@ -60,6 +61,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 4',
+            address: '39th Pl. and Kedzie Ave.',
             image: 'visuals/location2.jpeg',
             credit: 'credit: Daniel Delgado',
             description: 'Agents deployed pepper balls 3 times and threw at least 12 tear gas canisters at protesters who gathered after an agent ' +
@@ -83,6 +85,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 4',
+            address: 'Cermak and Rockwell',
             image: '',
             description: 'An agent used pepper spray 1 time on a protester. The spray appeared to also hit bystanders.',
             location: {
@@ -104,6 +107,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 7',
+            address: 'Concordia Cemetery, Forest Park',
             image: '',
             description: 'Agents shot pepper balls and pepper spray at cemetery workers who refused to allow them to access private property.',
             location: {
@@ -125,6 +129,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 12',
+            address: 'Sawyer & Wilson',
             image: 'visuals/location5.jpeg',
             credit: 'credit: Provided to Block Club Chicago',
             description: 'An agent threw 1 tear cas canister at a crowd of protesters in Albany Park.',
@@ -147,6 +152,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 14',
+            address: '105th & Avenue N',
             image: 'visuals/location6.jpg',
             credit: 'credit: Matthew Kaplan/Block Club Chicago',
             description: 'Agents threw at least 6 tear gas canisters at a crowd that gathered after agents rammed a car during a chase. ' +
@@ -170,6 +176,7 @@ var config = {
             alignment: 'left',
             hidden: false,
             title: 'October 22',
+            address: '26th & Ogden Ave, Cicero',
             image: '',
             description: 'An agent pepper-sprayed a crowd of protesters and bystanders through the window of a departing SUV.',
             location: {
@@ -191,6 +198,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 23',
+            address: '27th & Whipple',
             image: '',
             description: 'Agents shot pepper-balls and used at least 4 canisters of tear gas on a crowd. Border Patrol chief ' +
             'Greg Bovino was among the agents seen throwing gas. <br><br>' + 
@@ -214,6 +222,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 24',
+            address: '3310 N. Lakewood',
             image: '',
             description: 'After a crowd gathered around agents who’d detained a worker on a residential street in Lakeview, ' +
             'the agents threw at least 4 tear gas canisters before departing. ',
@@ -236,6 +245,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 25',
+            address: 'Kildare & Grace',
             image: '',
             description: 'Agents threw at least 1 tear gas canister in in Old Irving Park after neighbors gathered to protest. ',
             location: {
@@ -257,6 +267,7 @@ var config = {
             alignment: 'left',
             hidden: false,
             title: 'October 25',
+            address: 'Roscoe & Harding',
             image: '',
             description: 'Agents threw 2 tear gas canisters in the middle of a residential block in Avondale after protesters followed and shouted at them.',
             location: {
@@ -278,6 +289,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 29',
+            address: '634 E New York St, Aurora',
             image: '',
             description: 'In Aurora, an agent fired pepper balls at a vehicle whose driver had followed them into a grocery store parking lot.',
             location: {
@@ -298,6 +310,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 31',
+            address: '3213 W. Lawrence',
             image: 'visuals/location13.jpeg',
             credit: 'Colin Boyle/Block Club Chicago',
             description: 'An agent fired pepper balls at the ground near protesters who gathered after agents tackled a man on an Albany Park sidewalk.',
@@ -320,6 +333,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 31',
+            address: '508 Asbury Avenue, Evanston',
             image: '',
             description: 'A crowd gathered after agents in an SUV collided with a rapid responder who was following them in a car. An agent deployed pepper spray 1 time on protesters.',
             location: {
@@ -341,6 +355,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'November 6',
+            address: 'Little Village (exact location unclear)',
             image: '',
             description: 'Agents fired at least 1 pepper ball at the open driver door of a parked SUV with a person inside, then drove away.',
             location: {
@@ -362,6 +377,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'November 8',
+            address: '26th and Ogden, Cicero',
             image: '',
             description: 'An agent driving an SUV shot pepper spray through the open driver’s-side window of a passing vehicle, hitting the driver and his 1-year-old daughter in the back seat.',
             location: {
@@ -383,6 +399,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'November 8',
+            address: 'Ogden & Damen',
             image: '',
             description: 'Agents in a moving vehicle appear to launch pepper spray into another moving vehicle before driving away.',
             location: {
@@ -404,6 +421,7 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'November 8',
+            address: '26th & Kedzie',
             image: '',
             description: 'Agents threw 2 tear gas canisters at a crowd of protesters in Little Village.',
             location: {
