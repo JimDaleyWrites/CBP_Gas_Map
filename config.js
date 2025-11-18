@@ -39,7 +39,7 @@ var config = {
             hidden: false,
             title: 'October 3',
             image: 'visuals/location1.webp',
-            credit: 'Andrew Denton for Block Club Chicago',
+            credit: 'credit: Andrew Denton for Block Club Chicago',
             description: 'An agent deployed 1 tear gas canister near Armitage and Central Park, within one block of an elementary school.', 
             location: {
                 center: [-87.716162, 41.917561],
@@ -60,7 +60,8 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 4',
-            image: '',
+            image: 'visuals/location2.jpeg',
+            credit: 'credit: Daniel Delgado',
             description: 'Agents deployed pepper balls 3 times and threw at least 12 tear gas canisters at protesters who gathered after an agent ' +
             'shot a woman who’d been following them in her car.',
             location: {
@@ -124,7 +125,8 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 12',
-            image: '',
+            image: 'visuals/location5.jpeg',
+            credit: 'credit: Provided to Block Club Chicago',
             description: 'An agent threw 1 tear cas canister at a crowd of protesters in Albany Park.',
             location: {
                 center: [-87.709629, 41.964662],
@@ -145,7 +147,8 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 14',
-            image: '',
+            image: 'visuals/location6.jpg',
+            credit: 'credit: Matthew Kaplan/Block Club Chicago',
             description: 'Agents threw at least 6 tear gas canisters at a crowd that gathered after agents rammed a car during a chase. ' +
             'Some in the crowd threw objects before the agents first deployed gas.',
             location: {
@@ -190,7 +193,8 @@ var config = {
             title: 'October 23',
             image: '',
             description: 'Agents shot pepper-balls and used at least 4 canisters of tear gas on a crowd. Border Patrol chief ' +
-            'Greg Bovino was among the agents seen throwing gas.',
+            'Greg Bovino was among the agents seen throwing gas. <br><br>' + 
+            '<iframe src="https://www.youtube.com/watch?v=C1k60q_zgss"></iframe>',
             location: {
                 center: [-87.701314, 41.842737],
                 zoom: 15,
@@ -294,7 +298,8 @@ var config = {
             alignment: 'right',
             hidden: false,
             title: 'October 31',
-            image: '',
+            image: 'visuals/location13.jpeg',
+            credit: 'Colin Boyle/Block Club Chicago',
             description: 'An agent fired pepper balls at the ground near protesters who gathered after agents tackled a man on an Albany Park sidewalk.',
             location: {
                 center: [-87.70875, 41.96846],
