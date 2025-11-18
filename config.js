@@ -16,7 +16,7 @@ var config = {
             hidden: false,
             title: 'Introduction',
             image: '',
-            description: 'Nine Chicago newsrooms and independent journalists reviewed dozens of videos and photos of federal immigration agents’ use of tear gas and pepper spray during Operation Midway Blitz. <br> <br> Our investigation found that agents used chemical weapons on protesters at least 49 times across 18 incidents since October 1. <br><br>At least 30 such instances occured after a judge placed restrictions on agents’ use of tear gas and pepper spray.', 
+            description: 'A group of nine Chicago newsrooms and independent journalists reviewed dozens of videos and photos of federal immigration agents’ use of tear gas and pepper spray during Operation Midway Blitz. <br> <br> Our investigation found that agents used chemical weapons on protesters at least 49 times across 18 incidents since October 1. <br><br> At least 30 such instances occured after a judge placed restrictions on agents’ use of tear gas and pepper spray.', 
             location: {
                 center: [-87.623177, 41.881832],
                 zoom: 10,
