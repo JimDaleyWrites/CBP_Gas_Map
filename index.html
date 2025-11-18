@@ -213,16 +213,22 @@
           chapter.appendChild(title);
         }
 
+        if (record.description) {
+          var story = document.createElement("p");
+          story.innerHTML = record.description;
+          chapter.appendChild(story);
+        }
+
         if (record.image) {
           var image = new Image();
           image.src = record.image;
           chapter.appendChild(image);
         }
 
-        if (record.description) {
-          var story = document.createElement("p");
-          story.innerHTML = record.description;
-          chapter.appendChild(story);
+        if (record.credit) {
+          var credit = document.createElement("I");
+          credit.innerHTML = record.credit;
+          chapter.appendChild(credit)
         }
 
         container.setAttribute("id", record.id);
