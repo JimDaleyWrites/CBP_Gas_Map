@@ -268,7 +268,7 @@ var config = {
             hidden: false,
             title: 'Location 12',
             image: '',
-            description: '',
+            description: 'TK',
             location: {
                 center: [-87.70444, 41.82259],
                 zoom: 15,
