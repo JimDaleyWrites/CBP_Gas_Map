@@ -379,7 +379,7 @@ var config = {
             hidden: false,
             title: 'November 8',
             address: '26th and Ogden, Cicero',
-            video: 'visuals/location16.mov',
+            video: 'visuals/location16.mp4',
             credit: 'credit: Provided to Block Club Chicago',
             description: 'An agent driving an SUV shot pepper spray through the open driver’s-side window of a passing vehicle, hitting the driver and his 1-year-old daughter in the back seat.',
             location: {
