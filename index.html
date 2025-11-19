@@ -231,6 +231,16 @@
           chapter.appendChild(image);
         }
 
+        if (record.video) {
+          var video = document.createElement("VIDEO");
+
+          video.src = record.video
+          video.setAttribute("controls", "controls");
+          video.setAttribute("width", "420");
+          video.setAttribute("height", "300");
+          chapter.appendChild(video)
+        }
+
         if (record.credit) {
           var credit = document.createElement("I");
           credit.innerHTML = record.credit;

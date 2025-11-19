@@ -173,7 +173,7 @@ var config = {
         },
         {
             id: 'location7',
-            alignment: 'left',
+            alignment: 'right',
             hidden: false,
             title: 'October 22',
             address: '26th & Ogden Ave, Cicero',
@@ -199,10 +199,10 @@ var config = {
             hidden: false,
             title: 'October 23',
             address: '27th & Whipple',
-            image: '',
+            video: 'visuals/location8.mp4',
+            credit: 'credit: Block Club Chicago',
             description: 'Agents shot pepper-balls and used at least 4 canisters of tear gas on a crowd. Border Patrol chief ' +
-            'Greg Bovino was among the agents seen throwing gas. <br><br>' + 
-            '<iframe src="https://www.youtube.com/watch?v=C1k60q_zgss"></iframe>',
+            'Greg Bovino was among the agents seen throwing gas. <br><br>',
             location: {
                 center: [-87.701314, 41.842737],
                 zoom: 15,
@@ -223,7 +223,8 @@ var config = {
             hidden: false,
             title: 'October 24',
             address: '3310 N. Lakewood',
-            image: '',
+            video: 'visuals/location9.mov',
+            credit: 'credit: Provided to Block Club Chicago',
             description: 'After a crowd gathered around agents who’d detained a worker on a residential street in Lakeview, ' +
             'the agents threw at least 4 tear gas canisters before departing. ',
             location: {
@@ -246,7 +247,8 @@ var config = {
             hidden: false,
             title: 'October 25',
             address: 'Kildare & Grace',
-            image: '',
+            video: 'visuals/location10.mov',
+            credit: 'credit: Provided to Block Club Chicago',
             description: 'Agents threw at least 1 tear gas canister in in Old Irving Park after neighbors gathered to protest. ',
             location: {
                 center: [-87.735334, 41.949931],
@@ -264,7 +266,7 @@ var config = {
         },
         {
             id: 'location11',
-            alignment: 'left',
+            alignment: 'right',
             hidden: false,
             title: 'October 25',
             address: 'Roscoe & Harding',
@@ -378,7 +380,8 @@ var config = {
             hidden: false,
             title: 'November 8',
             address: '26th and Ogden, Cicero',
-            image: '',
+            video: 'visuals/location16.mov',
+            credit: 'credit: Provided to Block Club Chicago',
             description: 'An agent driving an SUV shot pepper spray through the open driver’s-side window of a passing vehicle, hitting the driver and his 1-year-old daughter in the back seat.',
             location: {
                 center: [-87.74263, 41.84300],
@@ -400,7 +403,8 @@ var config = {
             hidden: false,
             title: 'November 8',
             address: 'Ogden & Damen',
-            image: '',
+            video: 'visuals/location17.mp4',
+            credit: 'credit: Matthew Boelkins, editing by Sebastían Hidalgo',
             description: 'Agents in a moving vehicle appear to launch pepper spray into another moving vehicle before driving away.',
             location: {
                 center: [-87.676361, 41.872860],
