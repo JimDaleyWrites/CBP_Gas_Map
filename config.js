@@ -8,7 +8,6 @@ var config = {
     title: '',
     subtitle: '',
     byline: '',
-    footer: 'TK footer',
     chapters: [
         {
             id: 'intro',
