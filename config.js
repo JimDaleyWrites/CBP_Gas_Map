@@ -40,7 +40,7 @@ var config = {
             title: 'October 3',
             address: '3566 W. Armitage',
             image: 'visuals/location1.webp',
-            credit: 'credit: Andrew Denton for Block Club Chicago',
+            credit: 'Andrew Denton for Block Club Chicago',
             description: 'An agent deployed 1 tear gas canister near Armitage and Central Park, within one block of an elementary school.', 
             location: {
                 center: [-87.716162, 41.917561],
@@ -63,7 +63,7 @@ var config = {
             title: 'October 4',
             address: '39th Pl. and Kedzie Ave.',
             image: 'visuals/location2.jpeg',
-            credit: 'credit: Daniel Delgado',
+            credit: 'Daniel Delgado',
             description: 'Agents deployed pepper balls 3 times and threw at least 12 tear gas canisters at protesters who gathered after an agent ' +
             'shot a woman who’d been following them in her car.',
             location: {
@@ -131,7 +131,7 @@ var config = {
             title: 'October 12',
             address: 'Sawyer & Wilson',
             image: 'visuals/location5.jpeg',
-            credit: 'credit: Provided to Block Club Chicago',
+            credit: 'Provided to Block Club Chicago',
             description: 'An agent threw 1 tear cas canister at a crowd of protesters in Albany Park.',
             location: {
                 center: [-87.709629, 41.964662],
@@ -154,7 +154,7 @@ var config = {
             title: 'October 14',
             address: '105th & Avenue N',
             image: 'visuals/location6.jpg',
-            credit: 'credit: Matthew Kaplan/Block Club Chicago',
+            credit: 'Matthew Kaplan/Block Club Chicago',
             description: 'Agents threw at least 6 tear gas canisters at a crowd that gathered after agents rammed a car during a chase. ' +
             'Some in the crowd threw objects before the agents first deployed gas.',
             location: {
