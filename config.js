@@ -223,7 +223,7 @@ var config = {
             hidden: false,
             title: 'October 24',
             address: '3310 N. Lakewood',
-            video: 'visuals/location9.mov',
+            video: 'visuals/location9.mp4',
             credit: 'credit: Provided to Block Club Chicago',
             description: 'After a crowd gathered around agents who’d detained a worker on a residential street in Lakeview, ' +
             'the agents threw at least 4 tear gas canisters before departing. ',
