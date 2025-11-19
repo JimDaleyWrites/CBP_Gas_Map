@@ -131,7 +131,7 @@ var config = {
             address: 'Sawyer & Wilson',
             image: 'visuals/location5.jpeg',
             credit: 'Provided to Block Club Chicago',
-            description: 'An agent threw 1 tear cas canister at a crowd of protesters in Albany Park.',
+            description: 'An agent threw 1 tear gas canister at a crowd of protesters in Albany Park.',
             location: {
                 center: [-87.709629, 41.964662],
                 zoom: 15,
