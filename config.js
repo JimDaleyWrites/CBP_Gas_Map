@@ -43,7 +43,7 @@ var config = {
             description: 'An agent deployed 1 tear gas canister near Armitage and Central Park, within one block of an elementary school.', 
             location: {
                 center: [-87.716162, 41.917561],
-                zoom: 15,
+                zoom: 16,
                 pitch: 45,
                 bearing: 0
             },
@@ -66,7 +66,7 @@ var config = {
             description: 'Agents deployed at least 1 tear gas canister outside Humbold Park Hospital after protesters surrounded Border Patrol vehicles.', 
             location: {
                 center: [-87.700542, 41.900998],
-                zoom: 15,
+                zoom: 16,
                 pitch: 45,
                 bearing: 0
             },
