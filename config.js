@@ -57,7 +57,7 @@ var config = {
         },
          {
             id: 'location1',
-            alignment: 'right',
+            alignment: 'left',
             hidden: false,
             title: 'October 3',
             address: '1044 N. Francisco',
