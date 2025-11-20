@@ -55,8 +55,31 @@ var config = {
             onChapterExit: [
             ]
         },
+         {
+            id: 'location1',
+            alignment: 'right',
+            hidden: false,
+            title: 'October 3',
+            address: '1044 N. Francisco',
+            image: 'visuals/HumboldtHospitalGas.jpeg',
+            credit: 'John Kettering',
+            description: 'Agents deployed at least 1 tear gas canister outside Humbold Park Hospital after protesters surrounded Border Patrol vehicles.', 
+            location: {
+                center: [-87.700542, 41.900998],
+                zoom: 15,
+                pitch: 45,
+                bearing: 0
+            },
+            mapAnimation: 'flyTo',
+            rotateAnimation: false,
+            callback: '',
+            onChapterEnter: [
+            ],
+            onChapterExit: [
+            ]
+         },
         {
-            id: 'location2',
+            id: 'location3',
             alignment: 'right',
             hidden: false,
             title: 'October 4',
@@ -80,7 +103,7 @@ var config = {
             ]
         },
         {
-            id: 'location3',
+            id: 'location4',
             alignment: 'right',
             hidden: false,
             title: 'October 4',
@@ -102,7 +125,7 @@ var config = {
             ]
         },
         {
-            id: 'location4',
+            id: 'location5',
             alignment: 'right',
             hidden: false,
             title: 'October 7',
@@ -124,7 +147,7 @@ var config = {
             ]
         },
         {
-            id: 'location5',
+            id: 'location6',
             alignment: 'right',
             hidden: false,
             title: 'October 12',
@@ -147,7 +170,7 @@ var config = {
             ]
         },
         {
-            id: 'location6',
+            id: 'location7',
             alignment: 'right',
             hidden: false,
             title: 'October 14',
@@ -171,7 +194,7 @@ var config = {
             ]
         },
         {
-            id: 'location7',
+            id: 'location8',
             alignment: 'right',
             hidden: false,
             title: 'October 22',
@@ -193,7 +216,7 @@ var config = {
             ]
         },
         {
-            id: 'location8',
+            id: 'location9',
             alignment: 'right',
             hidden: false,
             title: 'October 23',
@@ -217,7 +240,7 @@ var config = {
             ]
         },
         {
-            id: 'location9',
+            id: 'location10',
             alignment: 'right',
             hidden: false,
             title: 'October 24',
@@ -241,7 +264,7 @@ var config = {
             ]
         },
         {
-            id: 'location10',
+            id: 'location11',
             alignment: 'right',
             hidden: false,
             title: 'October 25',
@@ -264,7 +287,7 @@ var config = {
             ]
         },
         {
-            id: 'location11',
+            id: 'location12',
             alignment: 'right',
             hidden: false,
             title: 'October 25',
@@ -286,7 +309,7 @@ var config = {
             ]
         },
         {
-            id: 'location12',
+            id: 'location13',
             alignment: 'right',
             hidden: false,
             title: 'October 29',
@@ -307,7 +330,7 @@ var config = {
             ]
         },
         {
-            id: 'location13',
+            id: 'location14',
             alignment: 'right',
             hidden: false,
             title: 'October 31',
@@ -330,7 +353,7 @@ var config = {
             ]
         },
         {
-            id: 'location14',
+            id: 'location15',
             alignment: 'right',
             hidden: false,
             title: 'October 31',
@@ -352,7 +375,7 @@ var config = {
             ]
         },
         {
-            id: 'location15',
+            id: 'location16',
             alignment: 'right',
             hidden: false,
             title: 'November 6',
@@ -374,7 +397,7 @@ var config = {
             ]
         },
         {
-            id: 'location16',
+            id: 'location17',
             alignment: 'right',
             hidden: false,
             title: 'November 8',
@@ -397,7 +420,7 @@ var config = {
             ]
         },
         {
-            id: 'location17',
+            id: 'location18',
             alignment: 'right',
             hidden: false,
             title: 'November 8',
@@ -420,7 +443,7 @@ var config = {
             ]
         },
         {
-            id: 'location18',
+            id: 'location19',
             alignment: 'right',
             hidden: false,
             title: 'November 8',
