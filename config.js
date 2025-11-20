@@ -54,7 +54,7 @@ var config = {
             ],
             onChapterExit: [
             ]
-        },
+        }, 
          {
             id: 'location1',
             alignment: 'left',
