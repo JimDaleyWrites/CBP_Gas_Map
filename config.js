@@ -56,7 +56,7 @@ var config = {
             ]
         }, 
          {
-            id: 'location1',
+            id: 'location2',
             alignment: 'left',
             hidden: false,
             title: 'October 3',
