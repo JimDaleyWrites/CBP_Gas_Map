@@ -63,7 +63,7 @@ var config = {
             address: '1044 N. Francisco',
             image: 'visuals/HumboldtHospitalGas.jpeg',
             credit: 'John Kettering',
-            description: 'Agents deployed at least 1 tear gas canister outside Humbold Park Hospital after protesters surrounded Border Patrol vehicles.', 
+            description: 'Agents deployed at least 1 tear gas canister outside Humboldt Park Hospital after protesters surrounded Border Patrol vehicles.', 
             location: {
                 center: [-87.700542, 41.900998],
                 zoom: 16,
